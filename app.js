@@ -1,6 +1,7 @@
 var express             = require('express');
 var app                 = express();
 var port                = process.env.PORT || 8082;
+var key 				= process.env.DATAGOVKEY || 'DEMO_KEY';
 var bodyParser          = require('body-parser');
 var request 			= require('request');
 var mongoose 			= require('mongoose');
@@ -20,8 +21,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/api/item', function(req, res) {
-	console.log('http://api.nal.usda.gov/usda/ndb/reports/?ndbno='+req.query.id+'&type=s&format=json&api_key=DEMO_KEY');
-	request.get('http://api.nal.usda.gov/usda/ndb/reports/?ndbno='+req.query.id+'&type=s&format=json&api_key=DEMO_KEY', 
+	request.get('http://api.nal.usda.gov/usda/ndb/reports/?ndbno='+req.query.id+'&type=s&format=json&api_key=' + key, 
 	function(err, httpResponse, body) {
 		var response = JSON.parse(body);
 
