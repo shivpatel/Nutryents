@@ -1,14 +1,61 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	<title></title>
+	<title>Nutryents</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	</head>
 	<body>
-		<h1><%= item %></h1>
-		<ul>
-		<% for(var i=0; i<nutrients.length; i++) {%>
-		   <li><%= nutrients[i].name %> - <%= nutrients[i].value %> <%= nutrients[i].unit %></li>
-		<% } %>
+		<h1>Nutryents</h1>
+		<input class="search-query" id="search" type="text" name="search" placeholder="search for a food item">
+		<ul id="results" class="search">
+			<li class="item">Search for results...</li>
 		</ul>
+		<div class="item-info">Info on the item you select will show here.</div>
+		<script type="text/javascript">
+
+			function getSearchResults() {
+		        var html = '';
+		        var query = encodeURIComponent($('.search-query').val());
+		        $.get( "/api/search?query=" + query, function( data ) {
+		            if (data.length > 25) {
+		                var limit = 25;
+		            } else {
+		                var limit = data.length;
+		            }
+		            for (i = 0; i < limit; i++) {
+		                html += '<li class="item" id="' + data[i].id + '">' + data[i].name + '</li>';
+		            }
+		            $('.search').html(html).slideDown();
+		        });
+		    }
+
+		    function getItemInfo(id) {
+		        var html = '';
+		        $.get( "/api/item?id=" + id, function( data ) {
+		        	for (i = 0; i < data.length; i++) {
+		        		html = html + data[i].name + ': ' + data[i].value + ' ' + data[i].unit + '<br>';
+		        	}
+		            $('.item-info').html(html).slideDown();
+		        });
+		    }
+
+		    $(document).on('click', 'li.item', function () {
+		        getItemInfo($(this).attr('id'));
+		    });
+
+			$(document).on("keyup", "input#search", function(e) {
+		        // Set Timeout
+		        clearTimeout($.data(this, 'timer'));
+		        // Set Search String
+		        var search_string = $(this).val();
+		        // Do Search
+		        if (search_string == '') {
+		            $('.search').slideUp();
+		        } else {
+		            $(this).data('timer', setTimeout(getSearchResults, 100));
+		        };
+		    });
+
+		</script>
 	</body>
 </html>

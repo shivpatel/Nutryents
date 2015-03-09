@@ -3,15 +3,25 @@ var app                 = express();
 var port                = process.env.PORT || 8082;
 var bodyParser          = require('body-parser');
 var request 			= require('request');
+var mongoose 			= require('mongoose');
+var Item 				= require('./models/item');
 
 app.set('view engine', 'ejs');
 app.use(bodyParser());
 app.use(express.static(__dirname + '/public'));
 
+mongoose.connect('mongodb://dev:pass@dbh15.mongolab.com:27157/nutryents');
+
 var nutrientsWanted = ['Energy', 'Water', 'Protein', 'Sugars, total', 'Fiber, total dietary'];
 
 app.get('/', function(req, res) {
-	request.get('http://api.nal.usda.gov/usda/ndb/reports/?ndbno=01009&type=s&format=json&api_key=DEMO_KEY', 
+
+	res.render('index');
+});
+
+app.get('/api/item', function(req, res) {
+	console.log('http://api.nal.usda.gov/usda/ndb/reports/?ndbno='+req.query.id+'&type=s&format=json&api_key=DEMO_KEY');
+	request.get('http://api.nal.usda.gov/usda/ndb/reports/?ndbno='+req.query.id+'&type=s&format=json&api_key=DEMO_KEY', 
 	function(err, httpResponse, body) {
 		var response = JSON.parse(body);
 
@@ -24,10 +34,13 @@ app.get('/', function(req, res) {
 			}
 		}
 
-		res.render('index', {
-			item : response.report.food.name,
-			nutrients : nutrientsResposne
-		});
+		res.json(nutrientsResposne);
+	});
+});
+
+app.get('/api/search', function(req, res) {
+	Item.find({name : new RegExp(req.query.query, 'i')}, function(err, items) {
+		res.json(items);
 	});
 });
 
