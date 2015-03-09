@@ -1,1 +1,14 @@
-test page
+<!DOCTYPE html>
+<html>
+	<head>
+	<title></title>
+	</head>
+	<body>
+		<h1><%= item %></h1>
+		<ul>
+		<% for(var i=0; i<nutrients.length; i++) {%>
+		   <li><%= nutrients[i].name %> - <%= nutrients[i].value %> <%= nutrients[i].unit %></li>
+		<% } %>
+		</ul>
+	</body>
+</html>
