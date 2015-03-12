@@ -19,7 +19,8 @@ for (var i = 0; i < iterations; i++) {
 				console.log(items[j].name + '(' + items[j].id + ')');
 				var tmp = new Item({
 					id : items[j].id,
-					name : items[j].name
+					name : items[j].name,
+					data : []
 				});
 				tmp.save(function(err, saved) {
 					if (err) {
@@ -27,43 +28,8 @@ for (var i = 0; i < iterations; i++) {
 					} else {
 						console.log("Saved");
 					}
-
 				});
 			}
 	});
 
 }
-
-// request.get('http://api.nal.usda.gov/usda/ndb/reports/?ndbno=01009&type=s&format=json&api_key=DEMO_KEY', 
-// function(err, httpResponse, body) {
-// 	var response = JSON.parse(body);
-
-// 	var nutrients = response.report.food.nutrients;
-// 	var nutrientsResposne = [];
-
-// 	for (i = 0; i < nutrients.length; i++) {
-// 		if (nutrientsWanted.indexOf(nutrients[i].name) != -1) {
-// 			nutrientsResposne.push(nutrients[i]);
-// 		}
-// 	}
-
-// 	console.log(nutrientsResposne);
-// });
-
-// for each nutrient
-
-// request.get('http://api.nal.usda.gov/usda/ndb/reports/?ndbno=01009&type=s&format=json&api_key=DEMO_KEY', 
-// function(err, httpResponse, body) {
-// 	var response = JSON.parse(body);
-
-// 	var nutrients = response.report.food.nutrients;
-// 	var nutrientsResposne = [];
-
-// 	for (i = 0; i < nutrients.length; i++) {
-// 		if (nutrientsWanted.indexOf(nutrients[i].name) != -1) {
-// 			nutrientsResposne.push(nutrients[i]);
-// 		}
-// 	}
-
-// 	console.log(nutrientsResposne);
-// });

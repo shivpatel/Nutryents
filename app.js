@@ -14,6 +14,7 @@ app.use(express.static(__dirname + '/public'));
 mongoose.connect('mongodb://dev:pass@dbh15.mongolab.com:27157/nutryents');
 
 var nutrientsWanted = ['Energy', 'Water', 'Protein', 'Sugars, total', 'Fiber, total dietary'];
+var showAllnutrients = true;
 
 app.get('/', function(req, res) {
 
@@ -21,6 +22,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/api/item', function(req, res) {
+	console.log('http://api.nal.usda.gov/usda/ndb/reports/?ndbno='+req.query.id+'&type=s&format=json&api_key=' + key)
 	request.get('http://api.nal.usda.gov/usda/ndb/reports/?ndbno='+req.query.id+'&type=s&format=json&api_key=' + key, 
 	function(err, httpResponse, body) {
 		var response = JSON.parse(body);
@@ -29,7 +31,7 @@ app.get('/api/item', function(req, res) {
 		var nutrientsResposne = [];
 
 		for (i = 0; i < nutrients.length; i++) {
-			if (nutrientsWanted.indexOf(nutrients[i].name) != -1) {
+			if (nutrientsWanted.indexOf(nutrients[i].name) != -1 || showAllnutrients) {
 				nutrientsResposne.push(nutrients[i]);
 			}
 		}
