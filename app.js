@@ -51,7 +51,8 @@ app.get('/api/search', function(req, res) {
 });
 
 app.get('/api/search/category', function(req, res) {
-	Item.find({food_group : req.query.query}, {}, { limit: 100 }, function(err, items) {
+	//food_group : req.query.query
+	Item.find({}, {}, { limit: 100 }, function(err, items) {
 		res.json(items);
 	});
 });
