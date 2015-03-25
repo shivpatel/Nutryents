@@ -45,7 +45,13 @@ app.get('/api/item', function(req, res) {
 });
 
 app.get('/api/search', function(req, res) {
-	Item.find({name : new RegExp(req.query.query, 'i')}, function(err, items) {
+	Item.find({name : new RegExp(req.query.query, 'i')}, {}, { limit: 25 }, function(err, items) {
+		res.json(items);
+	});
+});
+
+app.get('/api/search/category', function(req, res) {
+	Item.find({food_group : req.query.query}, {}, { limit: 100 }, function(err, items) {
 		res.json(items);
 	});
 });

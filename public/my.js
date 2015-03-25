@@ -41,6 +41,7 @@ var tooltip = d3.select(".visual-one").append("div")
 
 // load data
 d3.csv("movies.csv", function(error, data) {
+// d3.json(theRawData, function(error, data)) {
 
   // change string (from CSV) into number format
   data.forEach(function(d) {
@@ -116,3 +117,16 @@ d3.csv("movies.csv", function(error, data) {
       .style("text-anchor", "end")
       .text(function(d) { return d;})
 });
+
+$(document).on("keyup", "input#search", function(e) {
+        // Set Timeout
+        clearTimeout($.data(this, 'timer'));
+        // Set Search String
+        var search_string = $(this).val();
+        // Do Search
+        if (search_string == '') {
+            $('.search').slideUp();
+        } else {
+            $(this).data('timer', setTimeout(getSearchResults, 100));
+        };
+    });
