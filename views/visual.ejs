@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Nutryents</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<link rel="stylesheet" href="style.css">
+		<link href='http://fonts.googleapis.com/css?family=Playfair+Display:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+	</head>
+	<body>
+		<div class="header"><h1>nutryents</h1></div>
+		<div class="wrap">
+			<div class="wrap-sub wrap-left">
+				<h2>your meal</h2>
+				<div class="meal-wrapper">
+					<div class="meal-item">
+						<h3><input type="checkbox" name="item" value="carrots" checked> carrots</h3>
+						<span class="measurement">3 ounces</span>
+						<span class="data"><table>
+							<tr><td>Test (g)</td><td class="value">1</td><td>Test (g)</td><td class="value">2</td><td>Test (g)</td><td class="value">3</td><td>Test (g)</td><td class="value">3</td><td>Test (g)</td><td class="value">3</td><td>Test (g)</td><td class="value">3</td></tr>
+						</table></span>
+					</div>
+					<div class="meal-item">
+						<h3><input type="checkbox" name="item" value="carrots" checked> carrots</h3>
+						<span class="measurement">3 ounces</span>
+						<span class="data"><table>
+							<tr><td>Test (g)</td><td class="value">1</td><td>Test (g)</td><td class="value">2</td><td>Test (g)</td><td class="value">3</td><td>Test (g)</td><td class="value">3</td><td>Test (g)</td><td class="value">3</td><td>Test (g)</td><td class="value">3</td></tr>
+						</table></span>
+					</div>
+				</div>
+			</div>
+			<div class="wrap-sub wrap-right">
+				<h2>your diet breakdown</h2>
+				<div class="visual-a-placeholder"></div>
+				<h2>nutryents analysis</h2>
+			</div>
+		</div>
+		<div class="slider-retractor" onclick="toggleSlider()"></div>
+		<div class="slider-properties slider-placeholder" onclick="toggleSlider()"></div>
+		<div class="slider-properties slider">
+
+			<h2>explore new foods</h2>
+			<div class="visual-one-info">Item Information</div>
+			<div class="visual-one"></div>
+
+		</div>
+		<script type="text/javascript">
+		function toggleSlider() {
+			$('.slider').animate({width:'toggle'},350);
+			$('.slider-placeholder').animate({width:'toggle'},350);
+			$('.slider-retractor').toggle();
+			// $('.visual-one-info').delay(350).slideToggle();
+		}
+		</script>
+		<script src="jquery.min.js"></script>
+		<script src="d3.v3.min.js"></script>
+		<script src="my.js"></script>
+	</body>
+</html>

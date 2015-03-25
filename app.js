@@ -21,6 +21,10 @@ app.get('/', function(req, res) {
 	res.render('index');
 });
 
+app.get('/visual', function(req, res) {
+	res.render('visual');
+});
+
 app.get('/api/item', function(req, res) {
 	console.log('http://api.nal.usda.gov/usda/ndb/reports/?ndbno='+req.query.id+'&type=s&format=json&api_key=' + key)
 	request.get('http://api.nal.usda.gov/usda/ndb/reports/?ndbno='+req.query.id+'&type=s&format=json&api_key=' + key, 
