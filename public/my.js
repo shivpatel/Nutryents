@@ -1,3 +1,5 @@
+function drawgraph(x,y,url){
+
 var margin = {top: 50, right: 100, bottom: 30, left: 100},
     width = $('.slider').width() - margin.left - margin.right,
     height = 450 - margin.top - margin.bottom;
@@ -9,23 +11,21 @@ var margin = {top: 50, right: 100, bottom: 30, left: 100},
  * axis - sets up axis
  */ 
 
-function getData() {
-  return [{},{},{},{}];
-}
-
 // setup x 
-var xValue = function(d) { return d["Calories"];}, // data -> value
+var xValue = function(d) { return d[x];}, // data -> values
     xScale = d3.scale.linear().range([0, width]), // value -> display
     xMap = function(d) { return xScale(xValue(d));}, // data -> display
     xAxis = d3.svg.axis().scale(xScale).orient("bottom");
 
 // setup y
-var yValue = function(d) { return d["Protein"];}, // data -> value
+var yValue = function(d) { return d[y];}, // data -> value
     yScale = d3.scale.linear().range([height, 0]), // value -> display
     yMap = function(d) { return yScale(yValue(d));}, // data -> display
     yAxis = d3.svg.axis().scale(yScale).orient("left");
 
 // setup fill color
+//var cValue = function(d) { return d["Genre"];},
+ //   color = d3.scale.category10();
 
 // add the graph canvas to the body of the webpage
 var svg = d3.select(".visual-one").append("svg")
@@ -40,13 +40,13 @@ var tooltip = d3.select(".visual-one").append("div")
     .style("opacity", 0);
 
 // load data
-// d3.csv("movies.csv", function(error, data) {
-d3.json(getData(), function(error, data) {
+d3.json(url, function(error, data) {
+// d3.json(theRawData, function(error, data)) {
 
   // change string (from CSV) into number format
   data.forEach(function(d) {
-    d["Protein"] = +d["Protein"];
-    d["Calories"] = +d["Calroies"];
+    d[x] = +d[x];
+    d[y] = +d[y];
 //    console.log(d);
   });
 
@@ -64,7 +64,7 @@ d3.json(getData(), function(error, data) {
       .attr("x", width)
       .attr("y", -6)
       .style("text-anchor", "end")
-      .text("Calories");
+      .text("Release Year");
 
   // y-axis
   svg.append("g")
@@ -76,7 +76,7 @@ d3.json(getData(), function(error, data) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Protein");
+      .text("Profit $");
 
   // draw dots
   svg.selectAll(".dot")
@@ -89,7 +89,7 @@ d3.json(getData(), function(error, data) {
       .attr("cy", yMap)
       .style("fill", "#0a7a9a") // function(d) { return color(cValue(d));} 
       .on("mouseover", function(d) {
-          $('.visual-one-info').html("<div class=\"details\">Name: " + d["Name"] + "<br/>Calories: " + xValue(d) + "<br>Protein: " + yValue(d) + "<div class=\"details\">");
+          $('.visual-one-info').html("<div class=\"details\"> Name: " + d["name"] + "<br/>"+ x+ ": " + xValue(d) + "<br>" +y+ ":" + yValue(d) + "<div class=\"details\">");
       })
       .on("mouseout", function(d) {
           $('.visual-one-info').html("Item Information");
@@ -130,3 +130,4 @@ $(document).on("keyup", "input#search", function(e) {
             $(this).data('timer', setTimeout(getSearchResults, 100));
         };
     });
+}
