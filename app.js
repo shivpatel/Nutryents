@@ -72,7 +72,7 @@ function formatDataForClient(data, callback) {
 		tmp.name = data[i].name;
 		tmp.id = data[i].id;
 		tmp.protein = getNutrientValue(data[i], "Protein");
-		tmp.carbs = getNutrientValue(data[i], "Carbohydrate");
+		tmp.carbs = getNutrientValue(data[i], "Carbohydrate, by difference");
 		tmp.fat = getNutrientValue(data[i], "Total lipid (fat)");
 		tmp.energy = getNutrientValue(data[i], "Energy");
 		tmp.sugar = getNutrientValue(data[i], "Sugars");

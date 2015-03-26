@@ -1,4 +1,12 @@
-function drawgraph(x,y,url){
+function runme() {
+  var url = "http://localhost:8082/api/search/category?query=" + encodeURIComponent($('#food-group-wanted').val());
+  console.log(url);
+  drawgraph($('#x-axis-wanted').val(), $('#y-axis-wanted').val(), $('#circle-size-wanted').val(), url);
+}
+
+function drawgraph(x, y, circle, url) {
+
+$('.visual-one').html("");
 
 var margin = {top: 50, right: 100, bottom: 30, left: 100},
     width = $('.slider').width() - margin.left - margin.right,
@@ -15,6 +23,8 @@ var margin = {top: 50, right: 100, bottom: 30, left: 100},
 var xValue = function(d) { return d[x];}, // data -> values
     xScale = d3.scale.linear().range([0, width]), // value -> display
     xMap = function(d) { return xScale(xValue(d));}, // data -> display
+    size = function(d) { return 2 * Math.log(+d[circle]); },
+    sizeForThis = function(d) { return 2 * Math.log(+d[circle]); },
     xAxis = d3.svg.axis().scale(xScale).orient("bottom");
 
 // setup y
@@ -64,7 +74,7 @@ d3.json(url, function(error, data) {
       .attr("x", width)
       .attr("y", -6)
       .style("text-anchor", "end")
-      .text("Release Year");
+      .text(x);
 
   // y-axis
   svg.append("g")
@@ -76,7 +86,7 @@ d3.json(url, function(error, data) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Profit $");
+      .text(y);
 
   // draw dots
   svg.selectAll(".dot")
