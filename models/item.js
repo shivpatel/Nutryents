@@ -4,7 +4,8 @@ var itemSchema = mongoose.Schema({
 
     id          : {type: String},
     name        : {type: String},
-    data        : []
+    data        : [],
+    food_group  : {type: String, default: ''}
 
 });
 

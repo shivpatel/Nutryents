@@ -52,11 +52,48 @@ app.get('/api/search', function(req, res) {
 
 app.get('/api/search/category', function(req, res) {
 	//food_group : req.query.query
-	Item.find({}, {}, { limit: 100 }, function(err, items) {
-		res.json(items);
+	var result = [];
+	Item.find({food_group : req.query.query}, {}, { limit: 100 }, function(err, items) {
+		formatDataForClient(items, function(formatted) {
+			res.json(formatted);
+		});
 	});
 });
 
 app.listen(port, function() {
     console.log('Running at http://localhost:' + port);
 });
+
+function formatDataForClient(data, callback) {
+	newData = [];
+
+	for (var i = 0; i < data.length; i++) {
+		var tmp = {};
+		tmp.name = data[i].name;
+		tmp.id = data[i].id;
+		tmp.protein = getNutrientValue(data[i], "Protein");
+		tmp.carbs = getNutrientValue(data[i], "Carbohydrate");
+		tmp.fat = getNutrientValue(data[i], "Total lipid (fat)");
+		tmp.energy = getNutrientValue(data[i], "Energy");
+		tmp.sugar = getNutrientValue(data[i], "Sugars");
+		tmp.vit_a = getNutrientValue(data[i], "Vitamin A");
+		tmp.vit_c = getNutrientValue(data[i], "Vitamin C");
+		tmp.cholestrol = getNutrientValue(data[i], "Cholesterol");
+		tmp.potassium = getNutrientValue(data[i], "Potassium, K");
+		tmp.sodium = getNutrientValue(data[i], "Sodium, Na");
+		tmp.iron = getNutrientValue(data[i], "Iron, Fe");
+		newData.push(tmp);
+	}
+
+	callback(newData);
+}
+
+function getNutrientValue(item, nutrient) {
+	for (var i = 0; i < item.data.length; i++) {
+		console.log("Comparing " + nutrient + " and " + item.data[i].name);
+		if (item.data[i].name == nutrient) {
+			return item.data[i].value;
+		}
+	}
+	return 0;
+}
