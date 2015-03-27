@@ -3,7 +3,8 @@ A data visualization tool for dietary planning.
 
 # Todo
 * link scatterplot results to my diet add functionality
-* show units
+* show units (grams)
+* ability to alter x and y axis on scatterplot
 * add # of servings
 * fix search select, deselect, then select
 
