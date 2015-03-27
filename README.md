@@ -2,6 +2,7 @@
 A data visualization tool for dietary planning.
 
 # Todo
+* on hover of item name, show nutrition label
 * link scatterplot results to my diet add functionality
 * show units (grams)
 * ability to alter x and y axis on scatterplot

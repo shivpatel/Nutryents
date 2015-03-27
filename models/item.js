@@ -7,6 +7,8 @@ var itemSchema = mongoose.Schema({
     data        : [],
     food_group  : {type: String, default: ''}
 
+}).index({
+	name		: 'text'
 });
 
 module.exports = mongoose.model('Item', itemSchema);

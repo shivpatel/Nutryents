@@ -44,13 +44,30 @@ app.get('/api/item', function(req, res) {
 	});
 });
 
+// New Search based on Full Text Search/Score
+
 app.get('/api/search', function(req, res) {
-	Item.find({name : new RegExp(req.query.query, 'i')}, {}, { limit: 25 }, function(err, items) {
+
+	find = {'$text':{'$search':req.query.query}};
+	findScore = {'score':{'$meta':'textScore'}};
+	sort = {'score': {'$meta':'textScore'} }
+
+	Item.find(find, findScore).limit(25).sort(sort).exec(function(err, items) {
 		formatDataForClient(items, function(formatted) {
 			res.json(formatted);
 		});
 	});
+	
 });
+
+// Old Search based on REGEX
+// app.get('/api/search', function(req, res) {
+// 	Item.find({name : new RegExp(req.query.query, 'i')}, {}, { limit: 25 }, function(err, items) {
+// 		formatDataForClient(items, function(formatted) {
+// 			res.json(formatted);
+// 		});
+// 	});
+// });
 
 app.get('/api/search/category', function(req, res) {
 	//food_group : req.query.query
