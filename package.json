@@ -1,6 +1,6 @@
 {
-  "name": "WeightGainer",
-  "description": "description here",
+  "name": "nutryents",
+  "description": "visual tool for diet planning",
   "main": "app.js",
   "scripts": {
     "start": "node app.js"
