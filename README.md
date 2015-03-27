@@ -2,6 +2,7 @@
 A data visualization tool for dietary planning.
 
 # Todo
+* link scatterplot results to my diet add functionality
 * show units
 * add # of servings
 * fix search select, deselect, then select
