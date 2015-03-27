@@ -46,14 +46,16 @@ app.get('/api/item', function(req, res) {
 
 app.get('/api/search', function(req, res) {
 	Item.find({name : new RegExp(req.query.query, 'i')}, {}, { limit: 25 }, function(err, items) {
-		res.json(items);
+		formatDataForClient(items, function(formatted) {
+			res.json(formatted);
+		});
 	});
 });
 
 app.get('/api/search/category', function(req, res) {
 	//food_group : req.query.query
 	var result = [];
-	Item.find({food_group : req.query.query}, {}, { limit: 100 }, function(err, items) {
+	Item.find({food_group : req.query.query}, {}, { limit: 50 }, function(err, items) {
 		formatDataForClient(items, function(formatted) {
 			res.json(formatted);
 		});
@@ -71,13 +73,14 @@ function formatDataForClient(data, callback) {
 		var tmp = {};
 		tmp.name = data[i].name;
 		tmp.id = data[i].id;
+		tmp.food_group = data[i].food_group;
 		tmp.protein = getNutrientValue(data[i], "Protein");
 		tmp.carbs = getNutrientValue(data[i], "Carbohydrate, by difference");
 		tmp.fat = getNutrientValue(data[i], "Total lipid (fat)");
 		tmp.energy = getNutrientValue(data[i], "Energy");
-		tmp.sugar = getNutrientValue(data[i], "Sugars");
-		tmp.vit_a = getNutrientValue(data[i], "Vitamin A");
-		tmp.vit_c = getNutrientValue(data[i], "Vitamin C");
+		tmp.sugar = getNutrientValue(data[i], "Sugars, total");
+		tmp.vit_a = getNutrientValue(data[i], "Vitamin A, RAE");
+		tmp.vit_c = getNutrientValue(data[i], "Vitamin C, total ascorbic acid");
 		tmp.cholestrol = getNutrientValue(data[i], "Cholesterol");
 		tmp.potassium = getNutrientValue(data[i], "Potassium, K");
 		tmp.sodium = getNutrientValue(data[i], "Sodium, Na");
@@ -90,9 +93,8 @@ function formatDataForClient(data, callback) {
 
 function getNutrientValue(item, nutrient) {
 	for (var i = 0; i < item.data.length; i++) {
-		console.log("Comparing " + nutrient + " and " + item.data[i].name);
 		if (item.data[i].name == nutrient) {
-			return item.data[i].value;
+			return Number(item.data[i].value);
 		}
 	}
 	return 0;
