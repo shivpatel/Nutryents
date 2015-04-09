@@ -146,7 +146,13 @@ footer {
 	font-weight: 700;
 }
 
+.tooltip {
+	display: none;
+}
 
+.tooltip-inner {
+	max-width: 300px;
+}
 
 
 

@@ -2,6 +2,10 @@ var previousSearchResult = [];
 var foods = [];
 var previousScatter = [];
 
+$(window).load(function() {
+    $('.tooltip').tooltip('hide');
+});
+
 $(document).on("keyup", "input#search", function(e) {
     // Set Timeout
     clearTimeout($.data(this, 'timer'));
