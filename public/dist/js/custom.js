@@ -1,5 +1,6 @@
 var previousSearchResult = [];
 var foods = [];
+var previousScatter = [];
 
 $(document).on("keyup", "input#search", function(e) {
     // Set Timeout
@@ -241,7 +242,7 @@ function generateTreeMap() {
         .width({secondary:false})
         .height(250)
         .labels(false)
-        .color({scale:"category10"})
+        .color("food_group")
         .timing({transitions:0})
         .draw();            // finally, draw the visualization!
     }).fadeIn();
@@ -250,22 +251,55 @@ function generateTreeMap() {
 function generateScatterplot() {
     $.get( "/api/search/category?query=" + $('#food-group-selector').val(), function( data ) {
         previousSearchResult = data;
+        previousScatter = data;
         $('#search').val("");
         $('.search-results').html("");
        $('#viz2').fadeOut(function() {
-        var visualization2 = d3plus.viz()
-        .container("#viz2")  // container DIV to hold the visualization
-        .data(data)  // data to use with the visualization
-        .type("scatter")    // visualization type
-        .id("name")         // key for which our data is unique on
-        .x("energy")         // key for x-axis
-        .y("protein")        // key for y-axis
-        .width({secondary:false})
-        .color({scale:"category10"})
-        .labels(false)
-        .size(10)
-        .height(350)
-        .draw()             // finally, draw the visualization!
-        }).fadeIn(); 
+
+            var visualization2 = d3plus.viz()
+            .container("#viz2")  // container DIV to hold the visualization
+            .data(data)  // data to use with the visualization
+            .type("scatter")    // visualization type
+            .text("name")
+            .id("id")         // key for which our data is unique on
+            .x("energy")         // key for x-axis
+            .y("protein")        // key for y-axis
+            .width({secondary:false})
+            .color("food_group")
+            // .color({scale:"category10"})
+            .labels(true)
+            .size(10)
+            .height(350)
+            .draw();             // finally, draw the visualization!
+
+            // d3.select("#viz2")
+            // .datum(data)
+            // .call(visualization2)
+
+        }).fadeIn(function() {
+
+            $(".d3plus_data").click(function() { 
+                foods.push(getScatterClickedItem());
+                regenerateFoodList();
+                console.log("Graph click on: " + $('#d3plus_tooltip_id_scatter').text());
+            });
+
+        }); 
     });
+}
+
+function getScatterClickedItem() {
+    for (var i = 0; i < previousScatter.length; i++) {
+        if (previousScatter[i].name.toLowerCase() == $('#d3plus_tooltip_id_scatter').text().toLowerCase()) {
+            previousScatter[i].amount = 1;
+            return previousScatter[i];
+        }
+    }
+    return -1;
+}
+
+function clearAll() {
+    foods = [];
+    regenerateFoodList();
+
 }
