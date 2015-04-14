@@ -317,7 +317,7 @@ function updateCalorieProgress() {
     calories = calories.toFixed(0);
     var percent = (calories / caloriesNeeded) * 100
     $('.progress-bar').css('width', percent+'%').attr('aria-valuenow', percent);
-    $('.bar-details').text((calories/caloriesNeeded).toFixed(0) + "%");
+    $('.bar-details').text(((calories/caloriesNeeded)*100).toFixed(0) + "%");
     $('.bar-info').text(calories + " / " + caloriesNeeded);
 }
 
