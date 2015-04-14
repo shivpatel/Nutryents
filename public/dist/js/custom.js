@@ -95,6 +95,7 @@ function regenerateFoodList() {
 }
 
 function regenerateAnalysis() {
+    updateCalorieProgress();
     var build = $('#goal').val();
     var body_type = $('#body-type').val();
     var gender = $('#gender').val();
@@ -305,5 +306,58 @@ function getScatterClickedItem() {
 function clearAll() {
     foods = [];
     regenerateFoodList();
+}
 
+function updateCalorieProgress() {
+    var caloriesNeeded = calculateCalories() || 2000;
+    var calories = 0;
+    for (var i = 0; i < foods.length; i++) {
+        calories += foods[i].energy * foods[i].amount;
+    }
+    calories = calories.toFixed(0);
+    var percent = (calories / caloriesNeeded) * 100
+    $('.progress-bar').css('width', percent+'%').attr('aria-valuenow', percent);
+    $('.bar-details').text((calories/caloriesNeeded).toFixed(0) + "%");
+    $('.bar-info').text(calories + " / " + caloriesNeeded);
+}
+
+function calculateCalories() {
+   //alert("fdfd");
+   //document.getElementById("calories").innerHTML = "";
+    var gender = document.getElementById("gender").value;
+    var height = document.getElementById("height").value;
+    var weight = document.getElementById("weight").value;
+    var age = document.getElementById("age").value;
+    var goal = document.getElementById("goal").value;
+
+    if (age == "" || height == "" || weight == "") {
+        return;
+    }
+
+    var calories ;
+    if (gender == "male"){
+        if (goal == "build"){
+            calories = (1.3 *((66 + (6.3 * weight) + (12.9 * height) - (6.8 * age) ))) + 500
+        }
+        else if(goal == "loss"){
+            calories = (1.3 *((66 + (6.3 * weight) + (12.9 * height) - (6.8 * age) ))) - 500
+        }
+        else{
+            calories = (1.3 *((66 + (6.3 * weight) + (12.9 * height) - (6.8 * age) )))
+        }
+        
+    }
+    else{
+        if (goal == "build"){
+            calories = (1.3 *((655 + (4.3 * weight) + (4.7 * height) - (4.7 * age) ))) + 500
+        }
+        else if(goal == "loss"){
+            calories = (1.3 *((655 + (4.3 * weight) + (4.7 * height) - (4.7 * age) ))) - 500
+        }
+        else{
+            calories = (1.3 *((655 + (4.3 * weight) + (4.7 * height) - (4.7 * age) )))
+        }
+    }
+    return calories.toFixed(0);
+    //document.getElementById("calories").innerHTML = ""+calories;
 }

@@ -154,10 +154,25 @@ footer {
 	max-width: 300px;
 }
 
+.progress {
+	height: 40px;
+	margin-bottom: 0px;
+	margin-top: 0px;
+	border-radius: 5px;
+}
 
+.progress-bar {
+	line-height: 40px;
+	font-weight: 700;
+}
 
+.bar-details {
+	position: absolute;
+}
 
-
+.bar-info {
+	text-align: right;
+}
 
 
 a.tooltip {outline:none; }
