@@ -31,7 +31,7 @@ String.prototype.repeat = function (num) {
   $(function () {
 
     // Todo list
-    // $('.todo').on('click', 'li', function () {
+    // $('.food-clicker').on('click', 'li', function () {
     //   $(this).toggleClass('todo-done');
     // });
 

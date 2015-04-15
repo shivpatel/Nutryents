@@ -69,9 +69,12 @@ function getSearchResults() {
         var html = '';
         previousSearchResult = data;
         for (var i = 0; i < data.length; i++) {
-            html = html + '<li onclick="foodToggle(this)" id="'+data[i].id+'"><div class="todo-content"><h4 class="todo-name">'+data[i].name+'</h4>'+data[i].food_group+'</div></li>';
+            html = html + '<li id="'+data[i].id+'"><div class="todo-content"><h4 class="todo-name">'+data[i].name+'</h4>'+data[i].food_group+'</div><div><div class="food-clicker food-clicker2" onclick="foodToggle(this)"></div></div></li>';
         }
         $('.search-results').html(html);
+        $('.food-clicker2').click(function() {
+          $(this).parent().parent().toggleClass('todo-done'); 
+        });
     });
 }
 
