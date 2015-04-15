@@ -17,7 +17,49 @@
     <![endif]-->
   </head>
 
-  <body onload="regenerateAnalysis();generateTreeMap();">
+  <body onload="regenerateAnalysis();generateTreeMap();regenerateFoodList();">
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h6 class="modal-title" id="myModalLabel">graph options.</h6>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-4" style="margin-bottom:10px;">X-Axis Variable</div>
+              <div class="col-md-8" style="margin-bottom:10px;">
+                <select class="form-control select select-primary select2-offscreen" id="x-axis" data-toggle="select" tabindex="-1" title="">
+                  <option value="energy">Calories</option>
+                  <option value="carbs">Carbs</option>
+                  <option value="protein">Protein</option>
+                  <option value="fat">Fat</option>
+                </select>
+              </div>
+              <div class="col-md-4" style="margin-bottom:10px;">Y-Axis Variable</div>
+              <div class="col-md-8" style="margin-bottom:10px;">
+                <select class="form-control select select-primary select2-offscreen" id="y-axis" data-toggle="select" tabindex="-1" title="">
+                  <option value="carbs">Carbs</option>
+                  <option value="protein">Protein</option>
+                  <option value="fat">Fat</option>
+                  <option value="energy">Calories</option>
+                </select>
+              </div>
+              <div class="col-md-4" style="margin-bottom:10px;">Units</div>
+              <div class="col-md-8" style="margin-bottom:10px;">
+                <p><small>Carbs, protein, and fat shown as grams. All data represented using 100 gram serving sizes.</small></p>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="container">
 
       <div class="row row-header">
@@ -32,7 +74,7 @@
           <h6>your diet.<h6>
           <div class="todo">
             <div class="todo-search">
-              <input class="todo-search-field" id="search" type="search" value="" placeholder="search for foods...">
+              <input class="todo-search-field" id="search" style="width:100%" type="search" value="" placeholder="search for foods...">
             </div>
             <div class="diet-list-wrapper">
               <ul class="diet-list">
@@ -45,6 +87,7 @@
         </div>
         <div class="col-xs-12 col-md-6 food-discovery-tool">
           <h6>discover foods.</h6>
+          <button type="button" class="btn btn-inverse btn-sm scatter-options-button" data-toggle="modal" data-target="#myModal">Graph Options</button>
           <select class="form-control select select-primary select2-offscreen food-group-selector" id="food-group-selector" data-toggle="select" tabindex="-1" title="">
             <option value="all">Pick a Food Group</option>
             <option value="American Indian/Alaska Native Foods">American Indian/Alaska Native Foods</option>
@@ -115,7 +158,7 @@
             </div>
             <div class="col-xs-12 col-md-6 analysis-details">
               <h6>analysis</h6>
-              <p><small>The ranges and recommendations listed below have been derived from <a href="http://www.bodybuilding.com/fun/macro-math-3-keys-to-dialing-in-your-macro-ratios.html">BodyBuilding.com</a>.</small>
+              <p><small>The ranges and recommendations listed below have been derived from <a href="http://www.bodybuilding.com/fun/macro-math-3-keys-to-dialing-in-your-macro-ratios.html" target="_blank">BodyBuilding.com</a>.</small>
                 <table>
                   <tr>
                     <td> </td>

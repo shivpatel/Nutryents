@@ -1,6 +1,6 @@
-var previousSearchResult = [];
-var foods = [];
-var previousScatter = [];
+var previousSearchResult = JSON.parse(localStorage.getItem("previousSearchResult")) || [];
+var foods = JSON.parse(localStorage.getItem("foods")) || [];
+var previousScatter = JSON.parse(localStorage.getItem("previousScatter")) || [];
 
 $(window).load(function() {
     $('.tooltip').tooltip('hide');
@@ -50,6 +50,19 @@ $("#food-group-selector").change(function () {
     generateScatterplot();
 });
 
+$("#x-axis").change(function () {
+    generateScatterplot();
+});
+
+$("#y-axis").change(function () {
+    generateScatterplot();
+});
+
+function updateLocal() {
+    localStorage.setItem("previousSearchResult", JSON.stringify(previousSearchResult));
+    localStorage.setItem("foods", JSON.stringify(foods));
+    localStorage.setItem("previousScatter", JSON.stringify(previousScatter));
+}
 
 function getSearchResults() {
     $.get( "/api/search?query=" + $('#search').val(), function( data ) {
@@ -63,8 +76,8 @@ function getSearchResults() {
 }
 
 function foodToggle(element) {
-    var foodItemId = $(element).attr('id');
-    if ($(element).attr('class') == undefined) {
+    var foodItemId = $(element).parent().parent().attr('id');
+    if ($(element).parent().parent().attr('class') == undefined) {
         for (var i = 0; i < previousSearchResult.length; i++) {
             if (previousSearchResult[i].id == foodItemId) {
                 previousSearchResult[i].amount = 1;
@@ -87,15 +100,30 @@ function foodToggle(element) {
 function regenerateFoodList() {
     var html = '';
     for (var i = 0; i < foods.length; i++) {
-        html = html + '<li class="todo-done" onclick="foodToggle(this)" id="'+foods[i].id+'"><div class="todo-content"><h4 class="todo-name">'+foods[i].name+'</h4>'+foods[i].food_group+'</div></li>';
+        html = html + '<li class="todo-done" id="'+foods[i].id+'"><div class="todo-content"><h4 class="todo-name">'+foods[i].name+'</h4>'+foods[i].food_group+'<div class="food-clicker" onclick="foodToggle(this)"></div><div class="quantity-helper">100g x</div><input type="text" value="'+foods[i].amount+'" placeholder="1" class="form-control food-item-quantity"></div></li>';
     }
     $('.foods-added').html(html);
+    $( ".food-item-quantity" ).change(function() {
+      updateQuantity($(this).parent().parent().attr('id'),$(this).val());
+    });
     regenerateAnalysis();
     generateTreeMap();
 }
 
+function updateQuantity(id, value) {
+    for (var i = 0; i < foods.length; i++) {
+        if (foods[i].id == id) {
+            foods[i].amount = value;
+            regenerateAnalysis();
+            generateTreeMap();
+            return;
+        }
+    }
+}
+
 function regenerateAnalysis() {
     updateCalorieProgress();
+    updateLocal();
     var build = $('#goal').val();
     var body_type = $('#body-type').val();
     var gender = $('#gender').val();
@@ -237,7 +265,7 @@ function recommendedRanges(fitness_goal, body_type, gender) {
  ************/
 
 function generateTreeMap() {
-    $('#viz1').fadeOut(function() {
+    $('#viz1').fadeOut(200, function() {
         var visualization = d3plus.viz()
         .container("#viz1")  // container DIV to hold the visualization
         .data(foods)  // data to use with the visualization
@@ -250,7 +278,7 @@ function generateTreeMap() {
         .color("food_group")
         .timing({transitions:0})
         .draw();            // finally, draw the visualization!
-    }).fadeIn();
+    }).fadeIn(200);
 }
 
 function generateScatterplot() {
@@ -267,8 +295,8 @@ function generateScatterplot() {
             .type("scatter")    // visualization type
             .text("name")
             .id("id")         // key for which our data is unique on
-            .x("energy")         // key for x-axis
-            .y("protein")        // key for y-axis
+            .x($("#x-axis").val())         // key for x-axis
+            .y($("#y-axis").val())        // key for y-axis
             .width({secondary:false})
             .color("food_group")
             // .color({scale:"category10"})
@@ -306,6 +334,7 @@ function getScatterClickedItem() {
 function clearAll() {
     foods = [];
     regenerateFoodList();
+    updateLocal();
 }
 
 function updateCalorieProgress() {

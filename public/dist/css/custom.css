@@ -60,11 +60,12 @@ body {
 .todo li {
 	padding: 10px 42px 10px 25px;
 	background: #EFEFEF;
+	position: relative;
 }
 
 .todo-name {
 	color: #34495e;
-	max-width: 95%;
+	max-width: 75%;
 }
 
 .todo li.todo-done .todo-name {
@@ -193,4 +194,50 @@ a.tooltip span
 {
     border-radius:4px;
     box-shadow: 5px 5px 8px #CCC;
+}
+
+.scatter-options-button {
+	position: absolute;
+	top: 60px;
+	right: 0;
+	z-index: 999;
+}
+
+.select2-drop {
+	z-index: 99999;
+}
+
+.food-item-quantity {
+	position: absolute;
+	width: 50px;
+	height: 30px;
+	top: 50%;
+	margin-top: -15px;
+	right: 60px;
+	text-align: center;
+}
+
+.quantity-helper {
+	font-size: 10px;
+	position: absolute;
+	width: 50px;
+	height: 30px;
+	top: 50%;
+	margin-top: -28px;
+	right: 50px;
+	color: rgba(0, 0, 0, 0.55);
+}
+
+.food-clicker {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	top: 50%;
+	margin-top: -10px;
+	right: 22px;
+	z-index: 9;
+}
+
+.todo li {
+	cursor: default;
 }
