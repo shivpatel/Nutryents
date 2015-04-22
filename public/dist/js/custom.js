@@ -84,6 +84,10 @@ function foodToggle(element) {
         for (var i = 0; i < previousSearchResult.length; i++) {
             if (previousSearchResult[i].id == foodItemId) {
                 previousSearchResult[i].amount = 1;
+                previousSearchResult[i].energy_amount = previousSearchResult[i].energy * 1;
+                previousSearchResult[i].protein_amount = previousSearchResult[i].protein * 1;
+                previousSearchResult[i].carbs_amount = previousSearchResult[i].carbs * 1;
+                previousSearchResult[i].fat_amount = previousSearchResult[i].fat * 1;
                 foods.push(previousSearchResult[i]);
                 regenerateFoodList();
                 return;
@@ -117,6 +121,10 @@ function updateQuantity(id, value) {
     for (var i = 0; i < foods.length; i++) {
         if (foods[i].id == id) {
             foods[i].amount = value;
+            foods[i].energy_amount = foods[i].energy * value;
+            foods[i].protein_amount = foods[i].protein * value;
+            foods[i].carbs_amount = foods[i].carbs * value;
+            foods[i].fat_amount = foods[i].fat * value;
             regenerateAnalysis();
             generateTreeMap();
             return;
@@ -328,6 +336,10 @@ function getScatterClickedItem() {
     for (var i = 0; i < previousScatter.length; i++) {
         if (previousScatter[i].name.toLowerCase() == $('#d3plus_tooltip_id_scatter').text().toLowerCase()) {
             previousScatter[i].amount = 1;
+            previousScatter[i].energy_amount = previousScatter[i].energy * 1;
+            previousScatter[i].protein_amount = previousScatter[i].protein * 1;
+            previousScatter[i].carbs_amount = previousScatter[i].carbs * 1;
+            previousScatter[i].fat_amount = previousScatter[i].fat * 1;
             return previousScatter[i];
         }
     }
