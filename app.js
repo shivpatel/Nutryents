@@ -27,6 +27,7 @@ app.get('/visual', function(req, res) {
 	res.render('visual');
 });
 
+// NO LONGER IN USE
 app.get('/api/item', function(req, res) {
 	console.log('http://api.nal.usda.gov/usda/ndb/reports/?ndbno='+req.query.id+'&type=s&format=json&api_key=' + key)
 	request.get('http://api.nal.usda.gov/usda/ndb/reports/?ndbno='+req.query.id+'&type=s&format=json&api_key=' + key, 
@@ -47,7 +48,6 @@ app.get('/api/item', function(req, res) {
 });
 
 // New Search based on Full Text Search/Score
-
 app.get('/api/search', function(req, res) {
 
 	find = {'$text':{'$search':req.query.query}};
@@ -71,6 +71,7 @@ app.get('/api/search', function(req, res) {
 // 	});
 // });
 
+// Return 50 food items from food category
 app.get('/api/search/category', function(req, res) {
 	//food_group : req.query.query
 	var result = [];
@@ -85,6 +86,7 @@ app.listen(port, function() {
     console.log('Running at http://localhost:' + port);
 });
 
+// Format data for client json responses
 function formatDataForClient(data, callback) {
 	newData = [];
 
@@ -110,6 +112,7 @@ function formatDataForClient(data, callback) {
 	callback(newData);
 }
 
+// Cast Strings into Number for JS
 function getNutrientValue(item, nutrient) {
 	for (var i = 0; i < item.data.length; i++) {
 		if (item.data[i].name == nutrient) {
